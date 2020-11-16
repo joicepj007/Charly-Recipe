@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.recipe.activity.MainActivity">
+
+    <include
+        android:id="@+id/toolbar_add"
+        layout="@layout/toolbar"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_add_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_add_margin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_header_text_size"
+                    android:textStyle="bold"
+                    android:text="@string/str_title"
+                     />
+
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/addTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_title_height"
+                        android:background="@drawable/custom_borders"
+                        android:hint="@string/title"
+                        android:layout_marginTop="@dimen/dimen_title_margin_top"
+                        android:textSize="@dimen/dimen_title_data_text"
+                        android:padding="@dimen/dimen_padding_text"
+                        android:textStyle="bold"
+                        android:autofillHints="@string/title"
+                        android:inputType="text"  />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_margin_top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_header_text_size"
+                    android:textStyle="bold"
+                    android:text="@string/str_description"
+                    />
+
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/addDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_desc_height"
+                        android:background="@drawable/custom_borders"
+                        android:gravity="top|left"
+                        android:layout_marginTop="@dimen/dimen_title_margin_top"
+                        android:hint="@string/desc"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:padding="@dimen/dimen_padding_text"
+                        android:lines="5"
+                        android:textSize="@dimen/dimen_desc_text"
+                        android:textStyle="italic"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_margin_top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_header_text_size"
+                    android:textStyle="bold"
+                    android:text="@string/str_images"
+                    />
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_title_margin_top"
+                    android:layout_marginBottom="@dimen/dimen_margin_bottom"
+                    android:scrollbars="horizontal"
+                    android:visibility="visible"/>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

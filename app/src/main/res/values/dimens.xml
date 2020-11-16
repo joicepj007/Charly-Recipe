@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_main_header_text_size">22sp</dimen>
+    <dimen name="dimen_margin_end">8dp</dimen>
+    <dimen name="dimen_add_margin">16dp</dimen>
+    <dimen name="dimen_header_text_size">20sp</dimen>
+    <dimen name="dimen_title_height">50dp</dimen>
+    <dimen name="dimen_title_margin_top">5dp</dimen>
+    <dimen name="dimen_title_data_text">20sp</dimen>
+    <dimen name="dimen_padding_text">10dp</dimen>
+    <dimen name="dimen_margin_top">20dp</dimen>
+    <dimen name="dimen_desc_text">18sp</dimen>
+    <dimen name="dimen_margin_bottom">15dp</dimen>
+    <dimen name="dimen_desc_height">150dp</dimen>
+    <dimen name="dimen_img_width">100dp</dimen>
+    <dimen name="dimen_img_height">110dp</dimen>
+    <dimen name="dimen_note_padding">8dp</dimen>
+    <dimen name="dimen_img_width_height">30dp</dimen>
+    <dimen name="dimen_line">6dp</dimen>
+    <dimen name="dimen_delete">25dp</dimen>
+</resources>

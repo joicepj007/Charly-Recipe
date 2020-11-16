@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.android.charly.ui.recipe.recipelist.fragment.ListFragment"
+        android:label="All Recipes">
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.android.charly.ui.recipe.recipedetail.fragment.AddFragment"
+        android:label="Add Recipe" />
+</navigation>

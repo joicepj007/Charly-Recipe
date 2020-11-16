@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Charly</string>
+    <string name="desc">Add description for your recipe ..</string>
+    <string name="save_note">Save Note</string>
+    <string name="title">Title</string>
+    <string name="color">Color</string>
+    <string name="str_all_recipes">All Recipes</string>
+    <string name="str_add_recipe">Add Recipe</string>
+    <string name="str_title">Title:</string>
+    <string name="str_description">Description:</string>
+    <string name="str_images">Images:</string>
+    <string name="str_validation_title">Please enter Title</string>
+    <string name="str_validation_desc">Please enter Description</string>
+    <string name="str_validation_images">Please add Images</string>
+    <string name="str_saved">Note is saved</string>
+    <string name="str_validation_recipe">Please enter the Recipe Details</string>
+</resources>
