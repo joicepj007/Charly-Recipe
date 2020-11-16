@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Charly</string>
     <string name="desc">Add description for your recipe ..</string>
-    <string name="save_note">Save Note</string>
     <string name="title">Title</string>
-    <string name="color">Color</string>
     <string name="str_all_recipes">All Recipes</string>
     <string name="str_add_recipe">Add Recipe</string>
     <string name="str_title">Title:</string>

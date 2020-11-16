@@ -18,7 +18,8 @@
             android:adjustViewBounds="true"
             android:layout_centerInParent="true"
             android:padding="1dp"
-            android:src="@drawable/ic_add_img" />
+            android:src="@drawable/ic_add_img"
+            />
     </RelativeLayout>
 
 

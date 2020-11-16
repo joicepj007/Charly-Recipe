@@ -9,5 +9,6 @@
     android:background="@color/white"
     android:scaleType="centerCrop"
     android:adjustViewBounds="true"
-    android:padding="1dp" />
+    android:padding="1dp"
+    />
 

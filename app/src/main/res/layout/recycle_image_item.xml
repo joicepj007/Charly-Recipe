@@ -17,7 +17,8 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:padding="1dp" />
+            android:padding="1dp"
+            />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,8 +36,8 @@
         android:layout_width="@dimen/dimen_delete"
         android:layout_height="@dimen/dimen_delete"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:padding="@dimen/dimen_title_margin_top"
         android:scaleType="fitStart"
-        android:src="@drawable/ic_cancel" />
+        android:src="@drawable/ic_cancel"
+        />
 </RelativeLayout>

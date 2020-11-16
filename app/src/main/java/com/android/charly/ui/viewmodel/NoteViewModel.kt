@@ -8,7 +8,7 @@ import com.android.charly.repository.NoteRepository
 import javax.inject.Inject
 
 class NoteViewModel @Inject constructor(
-    val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository
 ) : ViewModel() {
 
 
@@ -18,11 +18,6 @@ class NoteViewModel @Inject constructor(
     // Method #1
     fun insert(note: Note) {
         return noteRepository.insert(note)
-    }
-
-    // Method #2
-    fun delete(note: Note) {
-        noteRepository.delete(note)
     }
 
     // Method #3

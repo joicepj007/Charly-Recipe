@@ -59,12 +59,12 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
         //getting recyclerview from xml
         mRecyclerView = view?.findViewById(R.id.recycle_product_image) as RecyclerView
         val recylerViewLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(
-            getActivity(),
+                activity,
             LinearLayoutManager.HORIZONTAL, false
         )
-        mRecyclerView?.setLayoutManager(recylerViewLayoutManager)
+        mRecyclerView.layoutManager = recylerViewLayoutManager
         recipeImageRecycleAdapter = RecipeImageRecycleAdapter(this)
-        mRecyclerView?.setAdapter(recipeImageRecycleAdapter)
+        mRecyclerView.adapter = recipeImageRecycleAdapter
 
 
         recipeImageRecycleAdapter.setImageRecycleClick(object :
@@ -78,9 +78,9 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
                 recipeImageRecycleAdapter.deleteImage(position)
             }
             override fun onimagePickerClick() {
-                imagePicker?.performImgPicAction(
+                imagePicker.performImgPicAction(
                         REQ_GALLARY,
-                    1
+                        1
                 )
             }
         })
@@ -89,7 +89,7 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        data?.let { imagePicker?.onActivityResult(requestCode, resultCode, it) }
+        data?.let { imagePicker.onActivityResult(requestCode, resultCode, it) }
     }
 
     // Method #2
@@ -123,25 +123,27 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
             Note(0,addTitle.text.toString(),addDescription.text.toString(),image)
 
 
-        if (addTitle.text.isNullOrEmpty()) {
-            Toast.makeText(activity, getString(R.string.str_validation_title), Toast.LENGTH_SHORT).show()
-        }else if (addDescription.text.isNullOrEmpty()){
-            Toast.makeText(activity, getString(R.string.str_validation_desc), Toast.LENGTH_SHORT).show()
-        } else if (image.isEmpty())
-        { Toast.makeText(activity, getString(R.string.str_validation_images), Toast.LENGTH_SHORT).show()
-        }
-        else
-        {
-            Toast.makeText(activity, getString(R.string.str_saved), Toast.LENGTH_SHORT).show()
-            //Call viewmodel to save the data
-            noteViewModel.insert(note)
-            Navigation.findNavController(requireActivity(),R.id.container).popBackStack()
+        when {
+            addTitle.text.isNullOrEmpty() -> {
+                Toast.makeText(activity, getString(R.string.str_validation_title), Toast.LENGTH_SHORT).show()
+            }
+            addDescription.text.isNullOrEmpty() -> {
+                Toast.makeText(activity, getString(R.string.str_validation_desc), Toast.LENGTH_SHORT).show()
+            }
+            image.isEmpty() -> { Toast.makeText(activity, getString(R.string.str_validation_images), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(activity, getString(R.string.str_saved), Toast.LENGTH_SHORT).show()
+                //Call viewmodel to save the data
+                noteViewModel.insert(note)
+                Navigation.findNavController(requireActivity(),R.id.container).popBackStack()
+            }
         }
 
     }
 
     // Method #6
-    fun validations(): Boolean {
+    private fun validations(): Boolean {
         return !(addTitle.text.isNullOrEmpty()
                 && addDescription.text.isNullOrEmpty() && image.toString().isEmpty())
     }
@@ -152,24 +154,24 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
         noteViewModel = ViewModelProvider(this,viewmodelProviderFactory).get(NoteViewModel::class.java)
     }
 
-    var imageListener: ImageListener = object : ImageListener {
+    private var imageListener: ImageListener = object : ImageListener {
         override fun onImagePick(reqCode: Int, path: String?) {
-            getActivity()?.runOnUiThread(Runnable {
+            activity?.runOnUiThread {
 
                 recipeImageRecycleAdapter.addData(path)
-                mRecyclerView.getLayoutManager()?.scrollToPosition(recipeImageRecycleAdapter.itemCount)
+                mRecyclerView.layoutManager?.scrollToPosition(recipeImageRecycleAdapter.itemCount)
                 recycleViewPositionChange(recipeImageRecycleAdapter.itemCount - 2)
-            })
+            }
         }
 
         override fun onError(s: String?) {
-            getActivity()?.runOnUiThread(Runnable {
+            activity?.runOnUiThread {
                 Toast.makeText(
-                    getActivity(),
+                    activity,
                     s,
                     Toast.LENGTH_SHORT
                 ).show()
-            })
+            }
         }
     }
     private fun recycleViewPositionChange(position: Int) {
@@ -178,7 +180,7 @@ class AddFragment : DaggerFragment(), RecipeImageRecycleAdapter.CallbackInterfac
     override fun passDataCallback(img: MutableList<String?>) {
         image=img
     }
-    fun View.hideKeyboard() {
+    private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }

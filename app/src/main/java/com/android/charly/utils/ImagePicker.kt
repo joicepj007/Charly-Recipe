@@ -33,14 +33,18 @@ class ImagePicker private constructor(builder: Builder) : ImageChooserListener {
 
     private val activity: Activity?
         get() {
-            if (mActivity != null) {
-                return mActivity
-            } else if (mFragment != null) {
-                return mFragment.activity
-            } else if (mSupportFragment != null) {
-                return mSupportFragment.getActivity()
+            return when {
+                mActivity != null -> {
+                    mActivity
+                }
+                mFragment != null -> {
+                    mFragment.activity
+                }
+                mSupportFragment != null -> {
+                    mSupportFragment.activity
+                }
+                else -> null
             }
-            return null
         }
 
     fun performImgPicAction(reqCode: Int, which: Int) {
@@ -74,9 +78,7 @@ class ImagePicker private constructor(builder: Builder) : ImageChooserListener {
         if (resultCode == Activity.RESULT_OK && (requestCode == ChooserType.REQUEST_PICK_PICTURE
                         || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE)) {
             if (imageReq == -1) {
-                if (imageChooserListener != null) {
-                    imageChooserListener.onError("Request code is diff")
-                }
+                imageChooserListener?.onError("Request code is diff")
                 return
             }
             if (imageChooserManager == null) {
@@ -96,25 +98,27 @@ class ImagePicker private constructor(builder: Builder) : ImageChooserListener {
     private fun returnImage(imageReq: Int, path: String?) {
         val handler = Handler()
         handler.post {
-            if (imageChooserListener != null) {
-                imageChooserListener.onImagePick(imageReq, path)
-            }
+            imageChooserListener?.onImagePick(imageReq, path)
         }
     }
 
     private fun initializeImageChooser(type: Int) {
-        if (mActivity != null) {
-            imageChooserManager = ImageChooserManager(mActivity, type, FOLDER_NAME, false)
-        } else if (mFragment != null) {
-            imageChooserManager = ImageChooserManager(mFragment, type, FOLDER_NAME, false)
-        } else {
-            imageChooserManager = ImageChooserManager(mSupportFragment, type, FOLDER_NAME, false)
+        imageChooserManager = when {
+            mActivity != null -> {
+                ImageChooserManager(mActivity, type, FOLDER_NAME, false)
+            }
+            mFragment != null -> {
+                ImageChooserManager(mFragment, type, FOLDER_NAME, false)
+            }
+            else -> {
+                ImageChooserManager(mSupportFragment, type, FOLDER_NAME, false)
+            }
         }
         imageChooserManager?.setImageChooserListener(this)
     }
 
     override fun onImageChosen(chosenImage: ChosenImage) {
-        inputUri = Uri.fromFile(File(chosenImage.getFilePathOriginal()))
+        inputUri = Uri.fromFile(File(chosenImage.filePathOriginal))
         val imageDir = File(Environment.getExternalStorageDirectory(), "/$FOLDER_NAME")
         Log.d(TAG, "onImageChosen: $imageDir")
         if (!imageDir.exists()) {
@@ -129,39 +133,32 @@ class ImagePicker private constructor(builder: Builder) : ImageChooserListener {
             } else if (x != -1) {
                 crop = crop.asSquare()
             }
-            if (mActivity != null) {
-                crop.start(mActivity)
-            } else if (mFragment != null) {
-                crop.start(activity, mFragment)
-            } else {
-                crop.start(activity, mSupportFragment)
+            when {
+                mActivity != null -> {
+                    crop.start(mActivity)
+                }
+                mFragment != null -> {
+                    crop.start(activity, mFragment)
+                }
+                else -> {
+                    crop.start(activity, mSupportFragment)
+                }
             }
         } else {
             val activity = activity
-            activity?.runOnUiThread { returnImage(imageReq, chosenImage.getFilePathOriginal()) }
+            activity?.runOnUiThread { returnImage(imageReq, chosenImage.filePathOriginal) }
         }
     }
 
     override fun onError(s: String?) {
         imageReq = -1
-        if (imageChooserListener != null) {
-            imageChooserListener.onError(s)
-        }
+        imageChooserListener?.onError(s)
     }
 
-    class Builder {
+    class Builder(var fragment: Fragment?) {
         var activity: Activity? = null
-        var fragment: Fragment? = null
         var supportFragment: Fragment? = null
         var listener: ImageListener? = null
-
-        private constructor(activity: Activity) {
-            this.activity = activity
-        }
-
-        constructor(fragment: Fragment?) {
-            this.fragment = fragment
-        }
 
         fun setListener(imageChooserListener: ImageListener?): Builder {
             listener = imageChooserListener

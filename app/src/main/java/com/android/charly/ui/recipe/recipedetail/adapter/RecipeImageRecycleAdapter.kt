@@ -40,26 +40,26 @@ class RecipeImageRecycleAdapter(private val callbackInterface: CallbackInterface
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view),
         OnLongClickListener {
-        var image: ImageView
-        var imageDelete: ImageView
-        var relativeLayout: RelativeLayout
+        private var image: ImageView = view.findViewById<View>(R.id.img_recycle) as ImageView
+        private var imageDelete: ImageView = view.findViewById<View>(R.id.img_delete) as ImageView
+        private var relativeLayout: RelativeLayout = view.findViewById<View>(R.id.selected_img_bg) as RelativeLayout
         fun bind(imagePath: String?) {
             if (!TextUtils.isEmpty(imagePath)) {
                 image.setImageBitmap(BitmapFactory.decodeFile(imagePath))
             }
-            if (selectedPosition == getAdapterPosition()) {
+            if (selectedPosition == adapterPosition) {
                 relativeLayout.visibility = View.VISIBLE
             } else {
                 relativeLayout.visibility = View.INVISIBLE
             }
-            itemView.setOnClickListener(View.OnClickListener { v ->
-                changePosition(getAdapterPosition())
-                imageRecycleClick?.onItemClick(v, getAdapterPosition())
-            })
+            itemView.setOnClickListener { v ->
+                changePosition(adapterPosition)
+                imageRecycleClick?.onItemClick(v, adapterPosition)
+            }
             imageDelete.setOnClickListener { v ->
                 imageRecycleClick?.onDeleteClick(
                     v,
-                    getAdapterPosition()
+                        adapterPosition
                 )
             }
             itemView.setOnLongClickListener(this)
@@ -69,47 +69,35 @@ class RecipeImageRecycleAdapter(private val callbackInterface: CallbackInterface
             return false
         }
 
-        init {
-            image =
-                view.findViewById<View>(R.id.img_recycle) as ImageView
-            imageDelete =
-                view.findViewById<View>(R.id.img_delete) as ImageView
-            relativeLayout =
-                view.findViewById<View>(R.id.selected_img_bg) as RelativeLayout
-        }
     }
 
     inner class ImageViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        var imageEdit: ImageView
-        var footerLayout: RelativeLayout
         fun bind() {
-            itemView.setOnClickListener(View.OnClickListener { imageRecycleClick?.onimagePickerClick() })
+            itemView.setOnClickListener { imageRecycleClick?.onimagePickerClick() }
         }
 
-        init {
-            imageEdit =
-                view.findViewById<View>(R.id.img_edit) as ImageView
-            footerLayout =
-                view.findViewById<View>(R.id.layout_footer) as RelativeLayout
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_FOOTER) {
-            val v = LayoutInflater.from(parent.context).inflate(
-                R.layout.recycle_image_layout,
-                parent, false
-            )
-            ImageViewHolder(v)
-        } else if (viewType == TYPE_ITEM) {
-            val v = LayoutInflater.from(parent.context).inflate(
-                R.layout.recycle_image_item,
-                parent, false
-            )
-            MyViewHolder(v)
-        } else {
-            throw IllegalArgumentException("Invalid View Type")
+        return when (viewType) {
+            TYPE_FOOTER -> {
+                val v = LayoutInflater.from(parent.context).inflate(
+                    R.layout.recycle_image_layout,
+                    parent, false
+                )
+                ImageViewHolder(v)
+            }
+            TYPE_ITEM -> {
+                val v = LayoutInflater.from(parent.context).inflate(
+                    R.layout.recycle_image_item,
+                    parent, false
+                )
+                MyViewHolder(v)
+            }
+            else -> {
+                throw IllegalArgumentException("Invalid View Type")
+            }
         }
     }
 
@@ -117,9 +105,9 @@ class RecipeImageRecycleAdapter(private val callbackInterface: CallbackInterface
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyViewHolder) {
-            (holder as MyViewHolder).bind(img[position])
+            holder.bind(img[position])
         } else if (holder is ImageViewHolder) {
-            (holder as ImageViewHolder).bind()
+            holder.bind()
         }
         callbackInterface.passDataCallback(img)
     }

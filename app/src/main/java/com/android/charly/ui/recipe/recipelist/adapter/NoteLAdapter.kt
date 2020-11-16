@@ -54,7 +54,6 @@ class NoteAdapter(
     class ViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-         val viewPool = RecyclerView.RecycledViewPool()
         // Method #6
         fun bind(item: Note) {
             itemView.txtTitle.text = item.title

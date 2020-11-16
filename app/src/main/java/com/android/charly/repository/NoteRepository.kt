@@ -1,13 +1,14 @@
 package com.android.charly.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.android.charly.persistence.Note
 import com.android.charly.persistence.NoteDao
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NoteRepository @Inject constructor(val noteDao: NoteDao) {
+class NoteRepository @Inject constructor(private val noteDao: NoteDao) {
 
     // Method #1
     //function to insert note in database
